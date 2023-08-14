@@ -2,21 +2,22 @@
 Servo myservo;
 
 // Motor pins
-int rightMotorForward = 8; //in1
-int rightMotorBackward = 9; //in2
-int leftMotorForward = 10; //in3
-int leftMotorBackward = 11; //in4
+
+int rightMotorBackward = 9; //in1
+int rightMotorForward = 8; //in2
+int leftMotorBackward = 10; //in3
+int leftMotorForward = 11; //in4
 
 // Ultrasonic sensor pins
 const int trigPin = 7;
 const int echoPin = 6;
 
 // Minimum distance
-int minDistance = 10;
+int minDistance = 15;
 
 // Constants for servo angles
-const int servoLeftAngle = 30;
-const int servoRightAngle = 150;
+const int servoLeftAngle = 180;
+const int servoRightAngle = 0;
 const int servoCenterAngle = 90;
 
 void setup() 
@@ -36,6 +37,8 @@ void setup()
 
   // Set initial servo position to center
   myservo.write(servoCenterAngle);
+
+  delay(10000);
 }
 
 void loop() 
@@ -45,26 +48,31 @@ void loop()
   if (frontDistance < minDistance) 
   {
     stop();
-    delay(4000);
+    delay(2000);
+    moveBackward();
+    delay(1000);
+    stop();
 
     // Calculating distance from both sides
 
     myservo.write(servoLeftAngle);
-    delay(500);
+    delay(2000);
     float leftDistance = getDistance();
 
     myservo.write(servoRightAngle);
-    delay(500);
+    delay(2000);
     float rightDistance = getDistance();
 
     // Choosing direction
 
     if (leftDistance > rightDistance) 
     {
+      myservo.write(servoLeftAngle);
       turnLeft();
     } 
     else 
     {
+      myservo.write(servoRightAngle);
       turnRight();
     }
   } 
@@ -122,7 +130,7 @@ void turnLeft()
   digitalWrite(rightMotorBackward, LOW);
   digitalWrite(leftMotorForward, LOW);
   digitalWrite(leftMotorBackward, HIGH);
-  delay(3500);
+  delay(2500);
   stop();
   delay(500);
 }
@@ -133,7 +141,7 @@ void turnRight()
   digitalWrite(rightMotorBackward, HIGH);
   digitalWrite(leftMotorForward, HIGH);
   digitalWrite(leftMotorBackward, LOW);
-  delay(3500);
+  delay(2500);
   stop();
   delay(500);
 }

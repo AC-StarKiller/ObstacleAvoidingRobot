@@ -2,7 +2,6 @@
 Servo myservo;
 
 // Motor pins
-
 int rightMotorBackward = 9; //in1
 int rightMotorForward = 8; //in2
 int leftMotorBackward = 10; //in3
